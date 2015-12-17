@@ -205,6 +205,41 @@ func (s *GardenServer) handleStop(w http.ResponseWriter, r *http.Request) {
 	s.writeSuccess(w)
 }
 
+func (s *GardenServer) handleStart(w http.ResponseWriter, r *http.Request) {
+	handle := r.FormValue(":handle")
+
+	hLog := s.logger.Session("start", lager.Data{
+		"handle": handle,
+	})
+
+	container, err := s.backend.Lookup(handle)
+	if err != nil {
+		s.writeError(w, err, hLog)
+		return
+	}
+
+	var persistentContainer garden.PersistentContainer
+	var ok bool
+	if persistentContainer, ok = container.(garden.PersistentContainer); !ok {
+		s.writeError(w, errors.New("Current backend don't support persistent intainers."), hLog)
+		return
+	}
+	s.bomberman.Pause(container.Handle())
+	defer s.bomberman.Unpause(container.Handle())
+
+	hLog.Debug("strting")
+
+	err = persistentContainer.Start()
+	if err != nil {
+		s.writeError(w, err, hLog)
+		return
+	}
+
+	hLog.Info("started")
+
+	s.writeSuccess(w)
+}
+
 func (s *GardenServer) handleStreamIn(w http.ResponseWriter, r *http.Request) {
 	handle := r.FormValue(":handle")
 

@@ -136,6 +136,12 @@ type Container interface {
 	RemoveProperty(name string) error
 }
 
+type PersistentContainer interface {
+	Container
+
+	Start() error
+}
+
 // ProcessSpec contains parameters for running a script inside a container.
 type ProcessSpec struct {
 	// Path to command to execute.
