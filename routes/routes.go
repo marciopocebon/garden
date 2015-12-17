@@ -13,7 +13,8 @@ const (
 	BulkMetrics = "BulkMetrics"
 	Destroy     = "Destroy"
 
-	Stop = "Stop"
+	Stop  = "Stop"
+	Start = "Start"
 
 	StreamIn  = "StreamIn"
 	StreamOut = "StreamOut"
@@ -62,6 +63,7 @@ var Routes = rata.Routes{
 
 	{Path: "/containers/:handle", Method: "DELETE", Name: Destroy},
 	{Path: "/containers/:handle/stop", Method: "PUT", Name: Stop},
+	{Path: "/containers/:handle/start", Method: "PUT", Name: Start},
 
 	{Path: "/containers/:handle/files", Method: "PUT", Name: StreamIn},
 	{Path: "/containers/:handle/files", Method: "GET", Name: StreamOut},

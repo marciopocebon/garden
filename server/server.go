@@ -76,6 +76,7 @@ func New(
 		routes.Destroy:                http.HandlerFunc(s.handleDestroy),
 		routes.List:                   http.HandlerFunc(s.handleList),
 		routes.Stop:                   http.HandlerFunc(s.handleStop),
+		routes.Start:                  http.HandlerFunc(s.handleStart),
 		routes.StreamIn:               http.HandlerFunc(s.handleStreamIn),
 		routes.StreamOut:              http.HandlerFunc(s.handleStreamOut),
 		routes.LimitBandwidth:         http.HandlerFunc(s.handleLimitBandwidth),
